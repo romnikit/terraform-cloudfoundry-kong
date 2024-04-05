@@ -1,7 +1,7 @@
 variable "kong_image" {
   type        = string
   description = "Kong Docker image to use"
-  default     = "kong/kong:3.4.2"
+  default     = "kong/kong:3.5.0"
 }
 
 variable "kong_plugins" {
