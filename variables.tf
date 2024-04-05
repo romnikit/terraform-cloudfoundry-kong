@@ -133,3 +133,9 @@ variable "docker_password" {
   description = "Docker registry password"
   default     = ""
 }
+
+variable "start_command" {
+  type        = string
+  description = "Explicit Docker startup command"
+  default     = ""
+}
