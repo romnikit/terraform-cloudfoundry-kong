@@ -44,7 +44,7 @@ resource "cloudfoundry_app" "kong" {
   }
   strategy          = var.strategy
   health_check_type = "process"
-  command           = var.start_command != "" ? var_start_command : (var.enable_postgres ? "/entrypoint.sh /usr/local/bin/kong migrations bootstrap && /entrypoint.sh /usr/local/bin/kong migrations up && /entrypoint.sh /usr/local/bin/kong migrations finish && /entrypoint.sh kong docker-start" : "/entrypoint.sh kong docker-start")
+  command           = var.start_command != "" ? var.start_command : (var.enable_postgres ? "/entrypoint.sh /usr/local/bin/kong migrations bootstrap && /entrypoint.sh /usr/local/bin/kong migrations up && /entrypoint.sh /usr/local/bin/kong migrations finish && /entrypoint.sh kong docker-start" : "/entrypoint.sh kong docker-start")
   environment = merge({
     KONG_PLUGINS                = join(",", var.kong_plugins)
     KONG_TRUSTED_IPS            = "0.0.0.0/0"
