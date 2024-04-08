@@ -73,12 +73,13 @@ The module is [published here](https://registry.terraform.io/modules/philips-lab
 | <a name="input_hostnames"></a> [hostnames](#input\_hostnames) | The list of hostnames to use for the gateway | `list(string)` | `[]` | no |
 | <a name="input_kong_autoscaler_config"></a> [kong\_autoscaler\_config](#input\_kong\_autoscaler\_config) | The Variant autoscaling configuration for Kong | <pre>list(object({<br>    min   = number<br>    max   = number<br>    query = string<br>    expr  = string<br>  }))</pre> | <pre>[<br>  {<br>    "expr": "query_result > 80",<br>    "max": 5,<br>    "min": 2,<br>    "query": "avg(avg_over_time(cpu{guid=\"{{ guid }}\"}[{{ window }}]))"<br>  }<br>]</pre> | no |
 | <a name="input_kong_declarative_config_string"></a> [kong\_declarative\_config\_string](#input\_kong\_declarative\_config\_string) | Declarative configuration json for Kong. To be provided while running in db less declarative mode | `string` | `"{\"_format_version\":\"1.1\", \"services\":[{\"host\":\"go-hello-world.eu-west.philips-healthsuite.com\",\"port\":443,\"protocol\":\"https\", \"routes\":[{\"paths\":[\"/\"]}]}],\"plugins\":[{\"name\":\"prometheus\"}]}"` | no |
-| <a name="input_kong_image"></a> [kong\_image](#input\_kong\_image) | Kong Docker image to use | `string` | `"kong/kong:2.6.0"` | no |
+| <a name="input_kong_image"></a> [kong\_image](#input\_kong\_image) | Kong Docker image to use | `string` | `"kong/kong:3.5.0"` | no |
 | <a name="input_kong_nginx_worker_processes"></a> [kong\_nginx\_worker\_processes](#input\_kong\_nginx\_worker\_processes) | Number of worker processes to use. When increase this, also increase memory allocation | `number` | `4` | no |
 | <a name="input_kong_plugins"></a> [kong\_plugins](#input\_kong\_plugins) | List of plugins to load | `list(string)` | <pre>[<br>  "bundled"<br>]</pre> | no |
 | <a name="input_memory"></a> [memory](#input\_memory) | The amount of RAM to allocate for Kong (MB) | `number` | `1024` | no |
 | <a name="input_name_postfix"></a> [name\_postfix](#input\_name\_postfix) | The postfix string to append to the hostname, prevents namespace clashes | `string` | `""` | no |
 | <a name="input_network_policies"></a> [network\_policies](#input\_network\_policies) | The container-to-container network policies to create with Kong as the source app | <pre>list(object({<br>    destination_app = string<br>    protocol        = string<br>    port            = string<br>  }))</pre> | `[]` | no |
+| <a name="input_start_command"></a> [start\_command](#input\_start\_command) | Explicit Docker startup command | `string` | `""` | no |
 | <a name="input_strategy"></a> [strategy](#input\_strategy) | Deployment strategy, 'none' or 'blue-green', default is 'none' | `string` | `"none"` | no |
 
 ## Outputs
