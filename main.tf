@@ -44,7 +44,7 @@ resource "cloudfoundry_app" "kong" {
   }
   strategy          = var.strategy
   health_check_type = "process"
-  command           = var.enable_postgres ? "/docker-entrypoint.sh /usr/local/bin/kong migrations bootstrap && /docker-entrypoint.sh /usr/local/bin/kong migrations up && /docker-entrypoint.sh kong docker-start" : "/docker-entrypoint.sh kong docker-start"
+  command           = var.start_command != "" ? var.start_command : (var.enable_postgres ? "/entrypoint.sh /usr/local/bin/kong migrations bootstrap && /entrypoint.sh /usr/local/bin/kong migrations up && /entrypoint.sh /usr/local/bin/kong migrations finish && /entrypoint.sh kong docker-start" : "/entrypoint.sh kong docker-start")
   environment = merge({
     KONG_PLUGINS                = join(",", var.kong_plugins)
     KONG_TRUSTED_IPS            = "0.0.0.0/0"
@@ -54,11 +54,13 @@ resource "cloudfoundry_app" "kong" {
     KONG_ADMIN_LISTEN           = "0.0.0.0:8001"
     KONG_NGINX_WORKER_PROCESSES = var.kong_nginx_worker_processes
     }, var.enable_postgres ? {
-    KONG_DATABASE    = "postgres"
-    KONG_PG_USER     = module.postgres[0].credentials.username
-    KONG_PG_PASSWORD = module.postgres[0].credentials.password
-    KONG_PG_HOST     = module.postgres[0].credentials.hostname
-    KONG_PG_DATABASE = module.postgres[0].credentials.db_name
+    KONG_DATABASE      = "postgres"
+    KONG_PG_USER       = module.postgres[0].credentials.username
+    KONG_PG_PASSWORD   = module.postgres[0].credentials.password
+    KONG_PG_HOST       = module.postgres[0].credentials.hostname
+    KONG_PG_DATABASE   = module.postgres[0].credentials.db_name
+    KONG_PG_SSL        = "on"
+    KONG_PG_SSL_VERIFY = "off"
     } : {
     KONG_DATABASE                  = "off"
     KONG_DECLARATIVE_CONFIG_STRING = var.kong_declarative_config_string

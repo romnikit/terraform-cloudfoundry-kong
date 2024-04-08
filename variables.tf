@@ -1,7 +1,7 @@
 variable "kong_image" {
   type        = string
   description = "Kong Docker image to use"
-  default     = "kong/kong:2.6.0"
+  default     = "kong/kong:3.5.0"
 }
 
 variable "kong_plugins" {
@@ -131,5 +131,11 @@ variable "docker_username" {
 variable "docker_password" {
   type        = string
   description = "Docker registry password"
+  default     = ""
+}
+
+variable "start_command" {
+  type        = string
+  description = "Explicit Docker startup command"
   default     = ""
 }
